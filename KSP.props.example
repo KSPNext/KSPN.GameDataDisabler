@@ -1,0 +1,7 @@
+<Project>
+	<PropertyGroup>
+		<KSPRoot>path to KSP root with trailing backslash</KSPRoot>
+		<KSPReferences>$(KSPRoot)KSP_x64_Data\Managed\</KSPReferences>
+		<KSPExecutable>$(KSPRoot)KSP_x64.exe</KSPExecutable>
+	</PropertyGroup>
+</Project>

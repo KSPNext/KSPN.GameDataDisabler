@@ -1,0 +1,40 @@
+<Project>
+	<Import Project="KSP.props"/>
+	
+	<PropertyGroup>
+		<DeployPath>$(KSPGameData)$(MSBuildProjectName)</DeployPath>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Launch KSP">
+		<StartAction>Program</StartAction>
+		<StartProgram>$(KSPExecutable)</StartProgram>
+		<StartWorkingDirectory>$(KSPRoot)</StartWorkingDirectory>
+	</PropertyGroup>
+
+	<ItemGroup Label="References">
+		<Reference Include="$(KSPReferences)Assembly-CSharp.dll">
+			<Name>KSP.Assembly-CSharp</Name>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="$(KSPReferences)Assembly-CSharp-firstpass.dll">
+			<Name>KSP.Assembly-CSharp-firstpass</Name>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="$(KSPReferences)UnityEngine*.dll">
+			<Name>KSP.UnityEngine</Name>
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<ItemGroup>
+			<Targets Include="$(TargetDir)*" />
+		</ItemGroup>
+		<RemoveDir Directories="$(DeployPath)" />
+		<Copy SourceFiles="@(Targets)" DestinationFolder="$(DeployPath)" />
+	</Target>
+
+	<Target Name="Log">
+		<Exec Command="Powershell &quot;Get-Content -Path '$(KSPRoot)KSP.log' -Wait | Select-String -Pattern \[KSPN\..*\]:&quot;" />
+	</Target>
+</Project>
